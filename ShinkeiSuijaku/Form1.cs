@@ -105,14 +105,12 @@ namespace ShinkeiSuijaku
             int x = e.X / 64; // クリックされたX座標を64で割る
             int y = e.Y / 88; // クリックされたY座標を88で割る
 
+            if (x < 0 || x >= _cells.GetLength(0) || y < 0 && y >= _cells.GetLength(1)) return; // カードじゃないところをクリックしていたら何も起きないようにする
 
-            if (x >= 0 && x < _cells.GetLength(0) && y >= 0 && y < _cells.GetLength(1)) // カードじゃないところをクリックしていないかチェックする
-            {
-                if (_cells[x, y] == null || _cells[x, y].Shown) return; // 【後編追加】既に除去されているマスや既にめくっているカードを再度クリックしても何も起きないようにする
+            if (_cells[x, y] == null || _cells[x, y].Shown) return; // 【後編追加】既に除去されているマスや既にめくっているカードを再度クリックしても何も起きないようにする
 
-                _cells[x, y].Shown = !_cells[x, y].Shown; // 表返りフラグを立てる
-                Refresh(); // 画面再描画
-            }
+            _cells[x, y].Shown = !_cells[x, y].Shown; // 表返りフラグを立てる
+            Refresh(); // 画面再描画
 
             // === 【後編追加】===
             _shownCardsXY[_shownCount] = new Point(x, y); // 表返したカードの座標を控える
